@@ -12,9 +12,16 @@ export function PageLoader() {
     if (document.readyState === "complete") {
       setTimeout(() => setLoading(false), 500);
     } else {
-      const handleLoad = () => setTimeout(() => setLoading(false), 500);
+      const handleLoad = () => setLoading(false);
       window.addEventListener("load", handleLoad);
-      return () => window.removeEventListener("load", handleLoad);
+      
+      // Fallback: forcefully remove loader after 3 seconds even if resources are still loading
+      const fallback = setTimeout(() => setLoading(false), 3000);
+      
+      return () => {
+        window.removeEventListener("load", handleLoad);
+        clearTimeout(fallback);
+      };
     }
   }, []);
 
