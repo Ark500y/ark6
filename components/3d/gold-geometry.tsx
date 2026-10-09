@@ -1,6 +1,6 @@
 // components/3d/gold-geometry.tsx
 // Smart wrapper: detects WebGL/mobile/reduced-motion, dynamically imports R3F only when safe.
-// Three.js is NEVER bundled on pages that don't import this file.
+// Protected by a React ErrorBoundary so WebGL crashes never blank the page.
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
@@ -15,6 +15,32 @@ const ARKGeometry3D = dynamic(
     })),
   { ssr: false }
 );
+
+// ─── React Error Boundary — catches 3D / R3F / React 19 runtime crashes ─────
+class GeometryErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.warn("3D Geometry render failed, using fallback:", error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
 
 // ─── Detection hook ──────────────────────────────────────────────────────────
 type WebGLState = "detecting" | "supported" | "unsupported";
@@ -74,16 +100,19 @@ interface GoldGeometryProps {
 export function GoldGeometry({ className }: GoldGeometryProps) {
   const webglState = useWebGLState();
 
-  // While detecting show nothing — avoids layout shift
   if (webglState === "detecting") return null;
 
+  const fallback = <GoldGeometryFallback className={className} />;
+
   if (webglState === "unsupported") {
-    return <GoldGeometryFallback className={className} />;
+    return fallback;
   }
 
   return (
-    <Suspense fallback={<GoldGeometryFallback className={className} />}>
-      <ARKGeometry3D className={className} />
-    </Suspense>
+    <GeometryErrorBoundary fallback={fallback}>
+      <Suspense fallback={fallback}>
+        <ARKGeometry3D className={className} />
+      </Suspense>
+    </GeometryErrorBoundary>
   );
 }
