@@ -5,32 +5,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 export function PageLoader() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !sessionStorage.getItem("ark_loaded")) {
+    // 1. If already shown this session, hide immediately
+    if (typeof window !== "undefined" && sessionStorage.getItem("ark_loaded")) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setLoading(true);
-      sessionStorage.setItem("ark_loaded", "true");
+      setLoading(false);
+      return;
     }
-  }, []);
 
-  useEffect(() => {
-    // Hide loader once the page is fully ready
-    if (document.readyState === "complete") {
-      setTimeout(() => setLoading(false), 500);
-    } else {
-      const handleLoad = () => setLoading(false);
-      window.addEventListener("load", handleLoad);
-      
-      // Fallback: forcefully remove loader after 3 seconds even if resources are still loading
-      const fallback = setTimeout(() => setLoading(false), 3000);
-      
-      return () => {
-        window.removeEventListener("load", handleLoad);
-        clearTimeout(fallback);
-      };
-    }
+    // 2. Mark as shown for this session
+    sessionStorage.setItem("ark_loaded", "true");
+
+    // 3. Hide loader after smooth delay (700ms)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 700);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -52,7 +45,7 @@ export function PageLoader() {
             className="relative w-16 h-12 flex flex-col items-center gap-4"
           >
             <div className="relative w-12 h-8 animate-pulse">
-              <Image src="/logo/ark.svg" alt="ARK" fill className="object-contain" />
+              <Image src="/logo/ark.svg" alt="ARK" fill className="object-contain" priority />
             </div>
             <div className="h-[2px] w-32 bg-white/10 rounded-full overflow-hidden">
               <motion.div

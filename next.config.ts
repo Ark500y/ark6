@@ -10,19 +10,11 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  // Transpile three.js and R3F for Turbopack compatibility
   transpilePackages: ["three", "@react-three/fiber", "@react-three/drei"],
-  allowedDevOrigins: [
-    "localhost:3000",
-    "chatty-shirts-pick.loca.lt",
-  ],
   experimental: {
     optimizePackageImports: [
-      "next/font",
       "framer-motion",
-      "three",
-      "@react-three/fiber",
-      "@react-three/drei",
+      "lucide-react",
     ],
   },
 };
