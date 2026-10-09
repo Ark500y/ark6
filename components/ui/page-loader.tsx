@@ -8,23 +8,25 @@ export function PageLoader() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. If already shown this session, hide immediately
-    if (typeof window !== "undefined" && sessionStorage.getItem("ark_loaded")) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setLoading(false);
-      return;
+    try {
+      if (typeof window !== "undefined" && sessionStorage.getItem("ark_loaded")) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLoading(false);
+        return;
+      }
+      sessionStorage.setItem("ark_loaded", "true");
+    } catch {
+      // Ignore storage restrictions (e.g. Safari Private Browsing)
     }
 
-    // 2. Mark as shown for this session
-    sessionStorage.setItem("ark_loaded", "true");
-
-    // 3. Hide loader after smooth delay (700ms)
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 700);
+    }, 600);
 
     return () => clearTimeout(timer);
   }, []);
+
+  if (!loading) return null;
 
   return (
     <AnimatePresence>
@@ -34,14 +36,14 @@ export function PageLoader() {
           exit={{
             opacity: 0,
             y: "-100%",
-            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+            transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
           }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505]"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505] pointer-events-none"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             className="relative w-16 h-12 flex flex-col items-center gap-4"
           >
             <div className="relative w-12 h-8 animate-pulse">
