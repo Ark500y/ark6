@@ -5,7 +5,6 @@ import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
-import { MagneticButton } from "@/components/ui/magnetic-button";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -36,7 +35,7 @@ export default function ContactPage() {
         setStatus("error");
         setErrorMessage(result.error || "Something went wrong.");
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
       setErrorMessage("Failed to send message. Please check your connection.");
     }
@@ -54,7 +53,7 @@ export default function ContactPage() {
             <div className="lg:col-span-5 flex flex-col space-y-12">
               <Reveal delay={0}>
                 <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-syne)] font-extrabold text-white leading-[1.1] tracking-tight">
-                  LET'S CREATE
+                  LET&apos;S CREATE
                   <br />
                   <span className="text-gradient-gold">SOMETHING GREAT.</span>
                 </h1>
@@ -62,7 +61,7 @@ export default function ContactPage() {
 
               <Reveal delay={100}>
                 <p className="text-[#A1A1AA] text-lg leading-relaxed max-w-md">
-                  Whether you have a clear vision or just an idea, I'm ready to help you bring it to life. Reach out directly or fill out the form.
+                  Whether you have a clear vision or just an idea, I&apos;m ready to help you bring it to life. Reach out directly or fill out the form.
                 </p>
               </Reveal>
 
@@ -106,7 +105,7 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <h3 className="text-2xl font-[family-name:var(--font-syne)] font-bold text-white">Inquiry Sent!</h3>
-                    <p className="text-[#A1A1AA]">Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                    <p className="text-[#A1A1AA]">Thank you for reaching out. I&apos;ll get back to you as soon as possible.</p>
                     <Button onClick={() => setStatus("idle")} variant="outline" className="mt-8">Send another message</Button>
                   </div>
                 ) : (

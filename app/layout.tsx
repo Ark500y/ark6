@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Abdul Rehman", url: "mailto:ark203777@gmail.com" }],
   creator: "Abdul Rehman",
-  metadataBase: new URL("https://ark.design"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://ark.design"),
   alternates: {
     canonical: "/",
   },

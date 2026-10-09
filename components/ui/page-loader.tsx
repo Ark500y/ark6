@@ -5,7 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 export function PageLoader() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && !sessionStorage.getItem("ark_loaded")) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoading(true);
+      sessionStorage.setItem("ark_loaded", "true");
+    }
+  }, []);
 
   useEffect(() => {
     // Hide loader once the page is fully ready

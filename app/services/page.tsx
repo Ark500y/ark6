@@ -6,7 +6,6 @@ import { Footer } from "@/components/sections/footer";
 import { Reveal } from "@/components/animations/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
-import { brandData } from "@/data/brand";
 
 const services = [
   {
@@ -172,7 +171,7 @@ export default function ServicesPage() {
                 Ready to start your project?
               </h2>
               <Button href="/#contact" variant="gold" size="lg">
-                Let's Work Together
+                Let&apos;s Work Together
               </Button>
             </Reveal>
           </div>

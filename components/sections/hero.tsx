@@ -3,7 +3,6 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { GoldGeometry } from "@/components/3d/gold-geometry";
@@ -27,23 +26,7 @@ function ArrowDown({ className }: { className?: string }) {
 }
 
 // ─── Staggered word reveal ────────────────────────────────────────────────────
-const wordVariants = {
-  hidden: { y: "100%", opacity: 0 },
-  visible: (i: number) => ({
-    y: 0,
-    opacity: 1,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.9,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  }),
-};
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
 
 // ─── Hero line component ──────────────────────────────────────────────────────
 function HeroLine({

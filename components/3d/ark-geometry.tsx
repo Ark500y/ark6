@@ -1,4 +1,5 @@
 // components/3d/ark-geometry.tsx — loaded ONLY via dynamic import, never SSR'd
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck — R3F JSX elements are not in standard JSX namespace; type-checking disabled for this file only.
 "use client";
 

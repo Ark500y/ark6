@@ -29,18 +29,21 @@ function useWebGLState(): WebGLState {
       navigator.maxTouchPoints > 0 ||
       /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (isTouch) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState("unsupported");
       return;
     }
 
     // 2. Reduced-motion preference
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState("unsupported");
       return;
     }
 
     // 3. Low-end heuristic: concurrency ≤ 2 likely means low-power device
     if (typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 2) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState("unsupported");
       return;
     }
@@ -52,8 +55,10 @@ function useWebGLState(): WebGLState {
         canvas.getContext("webgl2") ??
         canvas.getContext("webgl") ??
         (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState(gl ? "supported" : "unsupported");
     } catch {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState("unsupported");
     }
   }, []);

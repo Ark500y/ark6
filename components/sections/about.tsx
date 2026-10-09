@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import { Reveal } from "@/components/animations/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { brandData } from "@/data/brand";
 
 export function AboutSection() {
   return (
@@ -40,7 +39,7 @@ export function AboutSection() {
                   I am a digital artisan bridging the gap between aesthetics and engineering. Based in Sargodha, Pakistan, I specialize in crafting digital experiences that feel intuitive, perform flawlessly, and look uncompromisingly premium.
                 </p>
                 <p>
-                  With a deep focus on <strong className="text-white font-medium">brand identity, user interface design, and front-end development</strong>, I don't just create websites—I build digital products designed to scale and communicate your core value seamlessly.
+                  With a deep focus on <strong className="text-white font-medium">brand identity, user interface design, and front-end development</strong>, I don&apos;t just create websites—I build digital products designed to scale and communicate your core value seamlessly.
                 </p>
               </div>
             </Reveal>
