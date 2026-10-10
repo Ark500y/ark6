@@ -5,18 +5,20 @@ import { Reveal } from "@/components/animations/reveal";
 interface SectionHeadingProps {
   title: string;
   subtitle?: string;
+  eyebrow?: string;
   className?: string;
 }
 
-export function SectionHeading({ title, subtitle, className }: SectionHeadingProps) {
+export function SectionHeading({ title, subtitle, eyebrow, className }: SectionHeadingProps) {
+  const badgeText = subtitle || eyebrow;
   return (
     <div className={cn("mb-16 md:mb-20 space-y-4", className)}>
-      {subtitle && (
+      {badgeText && (
         <Reveal delay={0} duration="normal">
           <div className="flex items-center gap-3">
             <span className="block w-8 h-px bg-[#D4AF37]" />
             <span className="text-[#D4AF37] text-xs font-medium uppercase tracking-[0.3em]">
-              {subtitle}
+              {badgeText}
             </span>
           </div>
         </Reveal>
