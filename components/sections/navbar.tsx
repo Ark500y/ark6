@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { MagneticButton } from "@/components/ui/magnetic-button";
+import { LiveSargodhaTime } from "@/components/ui/live-time";
 
 const navLinks = [
   { href: "/about", label: "About" },
@@ -81,25 +82,32 @@ export function Navbar() {
         className="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between"
         aria-label="Main navigation"
       >
-        {/* Logo */}
-        <Link
-          href="/"
-          aria-label="ARK — Go to homepage"
-          className="flex items-center gap-3 group"
-        >
-          <div className="relative w-10 h-7 flex-shrink-0">
-            <Image
-              src="/logo/ark.svg"
-              alt="ARK monogram"
-              fill
-              className="object-contain group-hover:scale-105 transition-transform duration-300"
-              priority
-            />
+        {/* Logo & Live Time */}
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            aria-label="ARK — Go to homepage"
+            className="flex items-center gap-3 group"
+          >
+            <div className="relative w-10 h-7 flex-shrink-0">
+              <Image
+                src="/logo/ark.svg"
+                alt="ARK monogram"
+                fill
+                className="object-contain group-hover:scale-105 transition-transform duration-300"
+                priority
+              />
+            </div>
+            <span className="font-[family-name:var(--font-syne)] font-bold text-white text-sm tracking-[0.25em] uppercase hidden sm:block opacity-70 group-hover:opacity-100 transition-opacity">
+              ARK
+            </span>
+          </Link>
+
+          {/* Live Sargodha Time Indicator */}
+          <div className="hidden lg:block">
+            <LiveSargodhaTime />
           </div>
-          <span className="font-[family-name:var(--font-syne)] font-bold text-white text-sm tracking-[0.25em] uppercase hidden sm:block opacity-70 group-hover:opacity-100 transition-opacity">
-            ARK
-          </span>
-        </Link>
+        </div>
 
         {/* Desktop nav links */}
         <ul className="hidden md:flex items-center gap-8" role="list">

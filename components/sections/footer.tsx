@@ -1,12 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import { brandData } from "@/data/brand";
+import { LiveSargodhaTime } from "@/components/ui/live-time";
+import { CopyEmailButton } from "@/components/ui/copy-toast";
 
 const footerLinks = [
-  { href: "#about", label: "About" },
-  { href: "#work", label: "Work" },
-  { href: "#capabilities", label: "Services" },
-  { href: "#contact", label: "Contact" },
+  { href: "/about", label: "About" },
+  { href: "/work", label: "Work" },
+  { href: "/services", label: "Services" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function Footer() {
@@ -20,12 +22,10 @@ export function Footer() {
       {/* Top CTA strip */}
       <div className="border-b border-white/[0.06] py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-5 md:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <div className="space-y-2">
-            <p className="text-[#A1A1AA] text-xs uppercase tracking-[0.25em] font-medium">
-              Available for commissions
-            </p>
+          <div className="space-y-3">
+            <LiveSargodhaTime />
             <h2
-              className="font-[family-name:var(--font-syne)] font-extrabold text-white leading-tight"
+              className="font-[family-name:var(--font-syne)] font-extrabold text-white leading-tight mt-2"
               style={{ fontSize: "clamp(2rem, 1.5rem + 2.5vw, 4rem)" }}
             >
               Start something
@@ -35,15 +35,16 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="mailto:ark203777@gmail.com"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-black bg-gradient-to-r from-[#D4AF37] to-[#F4D06F] hover:shadow-[0_0_35px_rgba(212,175,55,0.45)] hover:from-[#F4D06F] hover:to-[#D4AF37] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
-            >
-              Email me
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
+            <CopyEmailButton email={brandData.contact.email}>
+              <span className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-black bg-gradient-to-r from-[#D4AF37] to-[#F4D06F] hover:shadow-[0_0_35px_rgba(212,175,55,0.45)] hover:from-[#F4D06F] hover:to-[#D4AF37] transition-all duration-300">
+                Copy Email
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+              </span>
+            </CopyEmailButton>
+
             <a
               href={brandData.contact.whatsapp}
               target="_blank"
@@ -98,15 +99,10 @@ export function Footer() {
 
           {/* Contact quick links */}
           <div className="space-y-3" aria-label="Quick contact links">
-            <a
-              href={`mailto:${brandData.contact.email}`}
-              className="block text-sm text-[#A1A1AA] hover:text-[#D4AF37] transition-colors duration-300"
-            >
-              {brandData.contact.email}
-            </a>
+            <CopyEmailButton email={brandData.contact.email} className="text-sm text-[#A1A1AA] hover:text-[#D4AF37] transition-colors duration-300" />
             <a
               href={brandData.contact.phoneHref}
-              className="block text-sm text-[#A1A1AA] hover:text-[#D4AF37] transition-colors duration-300"
+              className="block text-sm text-[#A1A1AA] hover:text-[#D4AF37] transition-colors duration-300 font-mono"
             >
               {brandData.contact.phoneFormatted}
             </a>

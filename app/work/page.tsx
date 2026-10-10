@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
 import { Reveal } from "@/components/animations/reveal";
@@ -30,25 +30,8 @@ function ArrowUpRight({ className }: { className?: string }) {
   );
 }
 
-/* ─── Stagger container ─────────────────────────────────── */
-const staggerContainer = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 32 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
-  },
-};
+/* ─── Categories ────────────────────────────────────────── */
+const categories = ["All", "Web Development", "Graphic Design", "Brand Identity", "UI/UX Design"] as const;
 
 /* ─── Image placeholder ─────────────────────────────────── */
 function ImagePlaceholder({ number }: { number: string }) {
@@ -80,33 +63,21 @@ function ProjectCard({
     <article
       data-cursor="view"
       className={cn(
-        "group relative flex flex-col rounded-2xl overflow-hidden",
+        "group relative flex flex-col rounded-2xl overflow-hidden h-full",
         "bg-[#111111] border border-white/[0.08]",
         "hover:border-[#D4AF37]/25 transition-all duration-500",
-        "cursor-pointer select-none",
-        project.featured && "md:col-span-2"
+        "cursor-pointer select-none"
       )}
     >
       {/* Image area */}
-      <div
-        className={cn(
-          "relative w-full overflow-hidden",
-          project.featured
-            ? "aspect-[16/9] md:aspect-[21/9]"
-            : "aspect-[4/3]"
-        )}
-      >
+      <div className="relative w-full aspect-[16/9] overflow-hidden">
         {project.imageUrl ? (
           <Image
             src={project.imageUrl}
             alt={`${project.title} project preview`}
             fill
             className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-[1.04] transition-all duration-700 ease-out"
-            sizes={
-              project.featured
-                ? "(max-width: 768px) 100vw, 1280px"
-                : "(max-width: 768px) 100vw, 640px"
-            }
+            sizes="(max-width: 768px) 100vw, 640px"
             priority={index === 0}
           />
         ) : (
@@ -142,11 +113,6 @@ function ProjectCard({
               Featured
             </span>
           )}
-          {isPlaceholder && (
-            <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest rounded-full bg-white/10 text-white/60 border border-white/10 backdrop-blur-sm">
-              Coming Soon
-            </span>
-          )}
         </div>
       </div>
 
@@ -175,7 +141,7 @@ function ProjectCard({
         </p>
 
         {/* Tags */}
-        {project.tags && project.tags.length > 0 && !isPlaceholder && (
+        {project.tags && project.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
             {project.tags.map((tag) => (
               <span
@@ -191,47 +157,29 @@ function ProjectCard({
     </article>
   );
 
-  if (hasCaseStudy && !isPlaceholder) {
+  if (hasCaseStudy) {
     return (
-      <motion.div variants={cardVariants} className={cn(project.featured && "md:col-span-2")}>
-        <Link
-          href={project.caseStudyUrl}
-          className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505] rounded-2xl"
-          aria-label={`View case study for ${project.title}`}
-        >
-          {cardContent}
-        </Link>
-      </motion.div>
+      <Link
+        href={project.caseStudyUrl}
+        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505] rounded-2xl h-full"
+        aria-label={`View case study for ${project.title}`}
+      >
+        {cardContent}
+      </Link>
     );
   }
 
-  return (
-    <motion.div variants={cardVariants} className={cn(project.featured && "md:col-span-2")}>
-      {cardContent}
-    </motion.div>
-  );
-}
-
-/* ─── Animated grid wrapper ─────────────────────────────── */
-function AnimatedGrid({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-5%" });
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={staggerContainer}
-      initial="hidden"
-      animate={isInView ? "show" : "hidden"}
-      className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
-    >
-      {children}
-    </motion.div>
-  );
+  return cardContent;
 }
 
 /* ─── Page ──────────────────────────────────────────────── */
 export default function WorkPage() {
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+
+  const filteredProjects = activeCategory === "All"
+    ? projects
+    : projects.filter((p) => p.category === activeCategory);
+
   return (
     <>
       <Navbar />
@@ -240,7 +188,7 @@ export default function WorkPage() {
         {/* ── Hero ─────────────────────────────────────────── */}
         <section
           aria-labelledby="work-page-heading"
-          className="relative pt-40 pb-20 md:pt-52 md:pb-28 overflow-hidden"
+          className="relative pt-40 pb-16 md:pt-52 md:pb-20 overflow-hidden"
         >
           {/* Gradient radial accent */}
           <div
@@ -268,35 +216,63 @@ export default function WorkPage() {
 
             <Reveal delay={160}>
               <p className="mt-6 text-[#A1A1AA] text-base md:text-lg leading-relaxed max-w-xl">
-                A curated view of client projects — each built with intent,
-                care, and measurable outcomes.
+                Filter by discipline to explore tailored client projects in Web Development, Brand Identity, and UI/UX.
               </p>
             </Reveal>
-          </div>
 
-          {/* Bottom divider */}
-          <div
-            className="absolute bottom-0 left-5 right-5 md:left-8 md:right-8 max-w-7xl mx-auto h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            aria-hidden="true"
-          />
+            {/* Filter Tabs */}
+            <div className="flex flex-wrap items-center gap-3 mt-12 pt-8 border-t border-white/10">
+              {categories.map((cat) => {
+                const isActive = activeCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={cn(
+                      "relative px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 cursor-pointer",
+                      isActive
+                        ? "text-black bg-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+                        : "text-white/60 bg-white/[0.04] hover:text-white border border-white/10 hover:border-white/20"
+                    )}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </section>
 
         {/* ── Project grid ─────────────────────────────────── */}
         <section
           aria-label="Projects"
-          className="py-20 md:py-28"
+          className="pb-24 md:pb-36"
         >
           <div className="max-w-7xl mx-auto px-5 md:px-8">
-            <AnimatedGrid>
-              {projects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
-              ))}
-            </AnimatedGrid>
+            <motion.div
+              layout
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <ProjectCard project={project} index={index} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
 
             {/* CTA below grid */}
             <Reveal delay={100} className="mt-20 md:mt-28 text-center">
               <p className="text-[#A1A1AA] text-sm mb-6">
-                More work in progress — check back soon.
+                Have a project in mind for Q4? Let&apos;s build something great.
               </p>
               <Button
                 href="mailto:ark203777@gmail.com"

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Syne, Instrument_Sans } from "next/font/google";
 import { PageLoader } from "@/components/ui/page-loader";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { CommandPalette } from "@/components/ui/command-palette";
 import "./globals.css";
 
 const syne = Syne({
@@ -123,6 +124,7 @@ export default function RootLayout({
       <body className="noise antialiased bg-[#050505] text-white overflow-x-hidden cursor-none md:cursor-auto">
         <PageLoader />
         <CustomCursor />
+        <CommandPalette />
         {children}
       </body>
     </html>
