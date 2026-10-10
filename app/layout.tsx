@@ -20,41 +20,51 @@ const instrumentSans = Instrument_Sans({
   display: "swap",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Abdul Rehman — Graphic Designer & Web Developer | ARK",
+  title: {
+    default: "Abdul Rehman — Graphic Designer & Web Developer | ARK",
+    template: "%s | ARK — Abdul Rehman",
+  },
   description:
-    "ARK is Abdul Rehman — a graphic designer and web developer based in Sargodha, Pakistan. Specialising in brand identity, UI/UX design, and high-performance web development.",
+    "ARK is Abdul Rehman — a graphic designer and full-stack web developer based in Sargodha, Pakistan. Specializing in brand identity systems, UI/UX design, Next.js web applications, and bilingual LTR/RTL experiences.",
   keywords: [
-    "ARK",
     "Abdul Rehman",
-    "Graphic Designer",
-    "Web Developer",
-    "UI UX Designer",
-    "Branding",
-    "Sargodha",
-    "Pakistan",
+    "ARK",
+    "Graphic Designer Sargodha",
+    "Web Developer Pakistan",
+    "Graphic Designer Pakistan",
+    "UI UX Designer Pakistan",
+    "Next.js Developer Pakistan",
+    "Brand Identity Designer",
+    "Bilingual Website Developer",
+    "Saudi Arabia Web Developer",
     "AI Website Development",
-    "Digital Experiences",
+    "Figma UI UX",
+    "Sargodha Web Designer",
   ],
   authors: [{ name: "Abdul Rehman", url: "mailto:ark203777@gmail.com" }],
   creator: "Abdul Rehman",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://ark.design"),
+  publisher: "ARK Studio",
+  metadataBase: new URL(baseUrl),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
+    url: baseUrl,
     title: "Abdul Rehman — Graphic Designer & Web Developer | ARK",
     description:
-      "Graphic design, web development, brand identity, and digital experiences from Sargodha, Pakistan.",
+      "Editorial graphic design, full-stack Next.js web development, brand identities, and digital experiences from Sargodha, Pakistan.",
     siteName: "ARK",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ARK — Abdul Rehman Portfolio",
+        alt: "ARK — Abdul Rehman | Graphic Designer & Web Developer Portfolio",
       },
     ],
   },
@@ -62,12 +72,20 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Abdul Rehman — Graphic Designer & Web Developer | ARK",
     description:
-      "Graphic design, web development, brand identity, and digital experiences.",
+      "Editorial graphic design, full-stack Next.js web development, and brand identity design.",
     images: ["/og-image.png"],
+    creator: "@ark203777",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -76,6 +94,79 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${baseUrl}/#website`,
+        "url": baseUrl,
+        "name": "ARK — Abdul Rehman",
+        "description": "Graphic Designer & Web Developer Portfolio",
+        "publisher": {
+          "@id": `${baseUrl}/#person`
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": `${baseUrl}/#person`,
+        "name": "Abdul Rehman",
+        "jobTitle": "Graphic Designer & Full-Stack Web Developer",
+        "url": baseUrl,
+        "email": "ark203777@gmail.com",
+        "telephone": "+923141495630",
+        "knowsAbout": [
+          "Graphic Design",
+          "Web Development",
+          "Brand Identity Design",
+          "UI/UX Design",
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "Figma",
+          "Bilingual Web Architecture"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Sargodha",
+          "addressRegion": "Punjab",
+          "addressCountry": "Pakistan"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "ARK Design & Engineering Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Brand Identity Design",
+                "description": "Custom logo design, typography systems, and luxury brand guidelines."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Web Development",
+                "description": "Full-stack Next.js, React, and Tailwind web applications."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "UI/UX Design",
+                "description": "Figma design systems, responsive wireframing, and user experience flows."
+              }
+            }
+          ]
+        }
+      }
+    ]
+  };
+
   return (
     <html
       lang="en"
@@ -87,38 +178,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#050505" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "WebSite",
-                  "@id": "https://ark.design/#website",
-                  "url": "https://ark.design/",
-                  "name": "ARK — Abdul Rehman",
-                  "description": "Graphic Designer & Web Developer",
-                  "publisher": {
-                    "@id": "https://ark.design/#person"
-                  }
-                },
-                {
-                  "@type": "Person",
-                  "@id": "https://ark.design/#person",
-                  "name": "Abdul Rehman",
-                  "jobTitle": "Graphic Designer & Web Developer",
-                  "url": "https://ark.design",
-                  "email": "ark203777@gmail.com",
-                  "telephone": "+923141495630",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Sargodha",
-                    "addressRegion": "Punjab",
-                    "addressCountry": "Pakistan"
-                  }
-                }
-              ]
-            })
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className="noise antialiased bg-[#050505] text-white overflow-x-hidden cursor-none md:cursor-auto">

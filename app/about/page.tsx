@@ -6,14 +6,20 @@ import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
+
 export const metadata: Metadata = {
   title: "About — Abdul Rehman | ARK",
   description:
     "Abdul Rehman is a graphic designer and web developer based in Sargodha, Punjab, Pakistan — building editorial digital experiences, brand identities, and high-performance web systems.",
+  alternates: {
+    canonical: `${baseUrl}/about`,
+  },
   openGraph: {
     title: "About — Abdul Rehman | ARK",
     description:
       "Graphic designer and web developer based in Sargodha, crafting intentional visual systems and modern digital experiences.",
+    url: `${baseUrl}/about`,
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "About ARK — Abdul Rehman" }],
   },
 };
