@@ -7,9 +7,16 @@ interface SectionHeadingProps {
   subtitle?: string;
   eyebrow?: string;
   className?: string;
+  as?: "h1" | "h2";
 }
 
-export function SectionHeading({ title, subtitle, eyebrow, className }: SectionHeadingProps) {
+export function SectionHeading({
+  title,
+  subtitle,
+  eyebrow,
+  className,
+  as: Tag = "h2",
+}: SectionHeadingProps) {
   const badgeText = subtitle || eyebrow;
   return (
     <div className={cn("mb-16 md:mb-20 space-y-4", className)}>
@@ -24,16 +31,19 @@ export function SectionHeading({ title, subtitle, eyebrow, className }: SectionH
         </Reveal>
       )}
       <Reveal delay={100} duration="large">
-        <h2
+        <Tag
+          aria-label={title}
           className="font-[family-name:var(--font-syne)] font-extrabold text-white leading-[1.0] tracking-tight"
           style={{ fontSize: "clamp(2.5rem, 2rem + 2.5vw, 4.5rem)" }}
         >
-          {title.split(" ").map((word, i) => (
-            <span key={i} className="inline-block mr-[0.3em] last:mr-0">
-              {word}
-            </span>
-          ))}
-        </h2>
+          <span aria-hidden="true">
+            {title.split(" ").map((word, i) => (
+              <span key={i} className="inline-block mr-[0.3em] last:mr-0">
+                {word}{" "}
+              </span>
+            ))}
+          </span>
+        </Tag>
       </Reveal>
     </div>
   );

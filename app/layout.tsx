@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import { Syne, Instrument_Sans } from "next/font/google";
 import { PageLoader } from "@/components/ui/page-loader";
 import { CustomCursor } from "@/components/ui/custom-cursor";
-import { CommandPalette } from "@/components/ui/command-palette";
+import dynamic from "next/dynamic";
 import "./globals.css";
+
+const CommandPalette = dynamic(
+  () => import("@/components/ui/command-palette").then((m) => m.CommandPalette)
+);
 
 const syne = Syne({
   subsets: ["latin"],
@@ -23,56 +27,42 @@ const instrumentSans = Instrument_Sans({
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
 
 export const metadata: Metadata = {
+  // FIX 1: title.template so each page appends cleanly
   title: {
-    default: "Abdul Rehman — Graphic Designer & Web Developer | ARK",
+    default: "ARK — Abdul Rehman | Graphic Designer & Web Developer",
     template: "%s | ARK — Abdul Rehman",
   },
+  // FIX 1: description ≤ 155 chars
   description:
-    "ARK is Abdul Rehman — a graphic designer and full-stack web developer based in Sargodha, Pakistan. Specializing in brand identity systems, UI/UX design, Next.js web applications, and bilingual LTR/RTL experiences.",
-  keywords: [
-    "Abdul Rehman",
-    "ARK",
-    "Graphic Designer Sargodha",
-    "Web Developer Pakistan",
-    "Graphic Designer Pakistan",
-    "UI UX Designer Pakistan",
-    "Next.js Developer Pakistan",
-    "Brand Identity Designer",
-    "Bilingual Website Developer",
-    "Saudi Arabia Web Developer",
-    "AI Website Development",
-    "Figma UI UX",
-    "Sargodha Web Designer",
-  ],
+    "Abdul Rehman (ARK) — graphic designer & web developer in Sargodha, Pakistan. Brand identity, UI/UX design, and Next.js web development.",
+  // FIX 1: remove meta keywords (no SEO value, penalised by some engines)
   authors: [{ name: "Abdul Rehman", url: "mailto:ark203777@gmail.com" }],
   creator: "Abdul Rehman",
   publisher: "ARK Studio",
   metadataBase: new URL(baseUrl),
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: baseUrl,
-    title: "Abdul Rehman — Graphic Designer & Web Developer | ARK",
+    title: "ARK — Abdul Rehman | Graphic Designer & Web Developer",
     description:
-      "Editorial graphic design, full-stack Next.js web development, brand identities, and digital experiences from Sargodha, Pakistan.",
+      "Brand identity, UI/UX design, and Next.js web development from Sargodha, Pakistan.",
     siteName: "ARK",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ARK — Abdul Rehman | Graphic Designer & Web Developer Portfolio",
+        alt: "ARK — Abdul Rehman portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Abdul Rehman — Graphic Designer & Web Developer | ARK",
+    title: "ARK — Abdul Rehman | Graphic Designer & Web Developer",
     description:
-      "Editorial graphic design, full-stack Next.js web development, and brand identity design.",
+      "Brand identity, UI/UX design, and Next.js web development from Sargodha, Pakistan.",
     images: ["/og-image.png"],
     creator: "@ark203777",
   },
@@ -100,22 +90,20 @@ export default function RootLayout({
       {
         "@type": "WebSite",
         "@id": `${baseUrl}/#website`,
-        "url": baseUrl,
-        "name": "ARK — Abdul Rehman",
-        "description": "Graphic Designer & Web Developer Portfolio",
-        "publisher": {
-          "@id": `${baseUrl}/#person`
-        }
+        url: baseUrl,
+        name: "ARK — Abdul Rehman",
+        description: "Graphic Designer & Web Developer Portfolio",
+        publisher: { "@id": `${baseUrl}/#person` },
       },
       {
         "@type": "Person",
         "@id": `${baseUrl}/#person`,
-        "name": "Abdul Rehman",
-        "jobTitle": "Graphic Designer & Full-Stack Web Developer",
-        "url": baseUrl,
-        "email": "ark203777@gmail.com",
-        "telephone": "+923141495630",
-        "knowsAbout": [
+        name: "Abdul Rehman",
+        jobTitle: "Graphic Designer & Full-Stack Web Developer",
+        url: baseUrl,
+        email: "ark203777@gmail.com",
+        telephone: "+923141495630",
+        knowsAbout: [
           "Graphic Design",
           "Web Development",
           "Brand Identity Design",
@@ -125,53 +113,53 @@ export default function RootLayout({
           "TypeScript",
           "Tailwind CSS",
           "Figma",
-          "Bilingual Web Architecture"
+          "Bilingual Web Architecture",
         ],
-        "address": {
+        address: {
           "@type": "PostalAddress",
-          "addressLocality": "Sargodha",
-          "addressRegion": "Punjab",
-          "addressCountry": "Pakistan"
+          addressLocality: "Sargodha",
+          addressRegion: "Punjab",
+          addressCountry: "Pakistan",
         },
-        "hasOfferCatalog": {
+        hasOfferCatalog: {
           "@type": "OfferCatalog",
-          "name": "ARK Design & Engineering Services",
-          "itemListElement": [
+          name: "ARK Design & Engineering Services",
+          itemListElement: [
             {
               "@type": "Offer",
-              "itemOffered": {
+              itemOffered: {
                 "@type": "Service",
-                "name": "Brand Identity Design",
-                "description": "Custom logo design, typography systems, and luxury brand guidelines."
-              }
+                name: "Brand Identity Design",
+                description:
+                  "Custom logo design, typography systems, and luxury brand guidelines.",
+              },
             },
             {
               "@type": "Offer",
-              "itemOffered": {
+              itemOffered: {
                 "@type": "Service",
-                "name": "Web Development",
-                "description": "Full-stack Next.js, React, and Tailwind web applications."
-              }
+                name: "Web Development",
+                description:
+                  "Full-stack Next.js, React, and Tailwind web applications.",
+              },
             },
             {
               "@type": "Offer",
-              "itemOffered": {
+              itemOffered: {
                 "@type": "Service",
-                "name": "UI/UX Design",
-                "description": "Figma design systems, responsive wireframing, and user experience flows."
-              }
-            }
-          ]
-        }
-      }
-    ]
+                name: "UI/UX Design",
+                description:
+                  "Figma design systems, responsive wireframing, and user experience flows.",
+              },
+            },
+          ],
+        },
+      },
+    ],
   };
 
   return (
-    <html
-      lang="en"
-      className={`${syne.variable} ${instrumentSans.variable}`}
-    >
+    <html lang="en" className={`${syne.variable} ${instrumentSans.variable}`}>
       <head>
         <link rel="icon" href="/logo/ark-favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/logo/ark.png" />

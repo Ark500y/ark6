@@ -47,7 +47,7 @@ export function PageLoader() {
             className="relative w-16 h-12 flex flex-col items-center gap-4"
           >
             <div className="relative w-12 h-8 animate-pulse">
-              <Image src="/logo/ark.svg" alt="ARK" fill className="object-contain" priority />
+              <Image src="/logo/ark.svg" alt="ARK" fill className="object-contain" sizes="48px" />
             </div>
             <div className="h-[2px] w-32 bg-white/10 rounded-full overflow-hidden">
               <motion.div

@@ -71,6 +71,7 @@ export default function ServicesPage() {
       <main id="main-content" className="bg-[#050505] min-h-screen pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <SectionHeading
+            as="h1"
             title="What I do best."
             subtitle="Services"
             className="mb-20"
@@ -104,9 +105,9 @@ export default function ServicesPage() {
 
                   <Reveal delay={200}>
                     <div className="space-y-4">
-                      <h4 className="text-sm font-semibold uppercase tracking-widest text-[#D4AF37]">
+                      <h3 className="text-sm font-semibold uppercase tracking-widest text-[#D4AF37]">
                         Deliverables
-                      </h4>
+                      </h3>
                       <div className="flex flex-wrap gap-2">
                         {service.deliverables.map((item) => (
                           <span
@@ -122,9 +123,9 @@ export default function ServicesPage() {
 
                   <Reveal delay={300}>
                     <div className="space-y-4 pt-4 border-t border-white/5">
-                      <h4 className="text-sm font-semibold uppercase tracking-widest text-[#D4AF37]">
+                      <h3 className="text-sm font-semibold uppercase tracking-widest text-[#D4AF37]">
                         Process
-                      </h4>
+                      </h3>
                       <div className="flex items-center gap-4 text-xs md:text-sm font-medium text-white/60">
                         {service.process.map((step, i) => (
                           <React.Fragment key={step}>

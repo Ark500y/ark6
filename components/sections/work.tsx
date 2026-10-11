@@ -67,7 +67,6 @@ export function WorkSection() {
                   fill
                   className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-700 ease-out"
                   sizes="(max-width: 768px) 100vw, 1280px"
-                  priority
                 />
               </motion.div>
             </div>

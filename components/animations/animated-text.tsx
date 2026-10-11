@@ -11,8 +11,6 @@ interface AnimatedTextProps {
   style?: React.CSSProperties;
 }
 
-type ValidTag = "h1" | "h2" | "h3" | "h4" | "p" | "span" | "div";
-
 export function AnimatedText({
   text,
   className,
@@ -20,12 +18,11 @@ export function AnimatedText({
   once = true,
   style,
 }: AnimatedTextProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once, margin: "-10%" });
-  const Comp = Tag as ValidTag;
 
   return (
-    <div ref={ref} className={className} style={style} aria-label={text}>
+    <Tag ref={ref as React.RefObject<never>} className={className} style={style} aria-label={text}>
       <span className="sr-only">{text}</span>
       <motion.span
         initial="hidden"
@@ -55,6 +52,6 @@ export function AnimatedText({
           </span>
         ))}
       </motion.span>
-    </div>
+    </Tag>
   );
 }

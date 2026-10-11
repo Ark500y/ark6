@@ -51,22 +51,22 @@ function ImagePlaceholder({ number }: { number: string }) {
 /* ─── Project card ──────────────────────────────────────── */
 function ProjectCard({
   project,
-  index,
 }: {
   project: Project;
   index: number;
 }) {
-  const isPlaceholder = project.id.startsWith("placeholder");
-  const hasCaseStudy = project.caseStudyUrl && project.caseStudyUrl !== "#";
+  const hasCaseStudy = Boolean(project.caseStudyUrl && project.caseStudyUrl !== "" && project.caseStudyUrl !== "#");
+  const isPlaceholder = !hasCaseStudy;
 
   const cardContent = (
     <article
-      data-cursor="view"
+      data-cursor={hasCaseStudy ? "view" : undefined}
       className={cn(
         "group relative flex flex-col rounded-2xl overflow-hidden h-full",
         "bg-[#111111] border border-white/[0.08]",
-        "hover:border-[#D4AF37]/25 transition-all duration-500",
-        "cursor-pointer select-none"
+        hasCaseStudy && "hover:border-[#D4AF37]/25 cursor-pointer",
+        !hasCaseStudy && "opacity-90 cursor-default",
+        "transition-all duration-500 select-none"
       )}
     >
       {/* Image area */}
@@ -76,9 +76,11 @@ function ProjectCard({
             src={project.imageUrl}
             alt={`${project.title} project preview`}
             fill
-            className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-[1.04] transition-all duration-700 ease-out"
+            className={cn(
+              "object-cover object-top opacity-80 transition-all duration-700 ease-out",
+              hasCaseStudy && "group-hover:opacity-100 group-hover:scale-[1.04]"
+            )}
             sizes="(max-width: 768px) 100vw, 640px"
-            priority={index === 0}
           />
         ) : (
           <ImagePlaceholder number={project.number} />
@@ -95,14 +97,14 @@ function ProjectCard({
         >
           <span
             className={cn(
-              "inline-flex items-center gap-2 px-6 py-3 rounded-full",
-              "bg-[#D4AF37] text-[#050505] text-sm font-semibold",
+              "inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold",
+              hasCaseStudy ? "bg-[#D4AF37] text-[#050505]" : "bg-white/10 text-white/80 border border-white/20",
               "opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100",
               "transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]"
             )}
           >
-            {isPlaceholder ? "Coming Soon" : "View Case Study"}
-            <ArrowUpRight className="w-4 h-4" />
+            {hasCaseStudy ? "View Case Study" : "Coming Soon"}
+            {hasCaseStudy && <ArrowUpRight className="w-4 h-4" />}
           </span>
         </div>
 
@@ -111,6 +113,11 @@ function ProjectCard({
           {project.featured && (
             <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest rounded-full bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 backdrop-blur-sm">
               Featured
+            </span>
+          )}
+          {isPlaceholder && (
+            <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest rounded-full bg-white/10 text-white/70 border border-white/15 backdrop-blur-sm">
+              Coming Soon
             </span>
           )}
         </div>

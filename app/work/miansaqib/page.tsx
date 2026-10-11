@@ -9,26 +9,29 @@ import { Container } from "@/components/ui/container";
 /* ─────────────────────────────────────────────
    SEO metadata
 ───────────────────────────────────────────── */
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Mian Saqib Hussain — Case Study | ARK",
+  title: "Mian Saqib Hussain",
   description:
-    "How ARK designed and developed a bilingual (EN/AR) corporate website for Mian Saqib Hussain, a professional boom truck operator based in Dammam, Saudi Arabia.",
-  keywords: [
-    "ARK",
-    "Case Study",
-    "Mian Saqib Hussain",
-    "Boom Truck",
-    "Saudi Arabia",
-    "Web Development",
-    "Bilingual Website",
-    "RTL Arabic",
-  ],
+    "Bilingual EN/AR corporate website designed and engineered for an independent boom truck operator in Dammam, Saudi Arabia.",
+  alternates: {
+    canonical: `${baseUrl}/work/miansaqib`,
+  },
   openGraph: {
     type: "article",
-    title: "Mian Saqib Hussain — Case Study | ARK",
+    url: `${baseUrl}/work/miansaqib`,
+    title: "Mian Saqib Hussain — Case Study",
     description:
-      "Bilingual corporate website for a professional boom truck operator in Dammam, Saudi Arabia.",
+      "Bilingual corporate website designed and engineered for a heavy-lifting specialist in Dammam, Saudi Arabia.",
     images: [{ url: "/work/mian-saqib-hero.png", width: 1200, height: 630, alt: "Mian Saqib Hussain website hero" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mian Saqib Hussain — Case Study",
+    description:
+      "Bilingual corporate website designed and engineered for a heavy-lifting specialist in Dammam, Saudi Arabia.",
+    images: ["/work/mian-saqib-hero.png"],
   },
 };
 
@@ -74,24 +77,6 @@ const features = [
 /* ─────────────────────────────────────────────
    Icons (inline SVG, zero deps)
 ───────────────────────────────────────────── */
-function ArrowRight({ className }: { className?: string }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d="M5 12h14M12 5l7 7-7 7" />
-    </svg>
-  );
-}
 
 function ArrowLeft({ className }: { className?: string }) {
   return (

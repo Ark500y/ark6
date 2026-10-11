@@ -69,6 +69,7 @@ export function Footer() {
                   alt="ARK monogram"
                   fill
                   className="object-contain"
+                  sizes="40px"
                 />
               </div>
               <span className="font-[family-name:var(--font-syne)] font-bold text-white text-sm tracking-[0.25em] uppercase">

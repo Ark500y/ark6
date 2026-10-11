@@ -41,7 +41,7 @@ function HeroLine({
   style?: React.CSSProperties;
 }) {
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" aria-hidden="true">
       <motion.span
         initial={{ y: "105%", opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -120,7 +120,7 @@ export function HeroSection() {
             </motion.div>
 
             {/* Headline — staggered line entrances */}
-            <div
+            <h1
               className="font-[family-name:var(--font-syne)] font-extrabold leading-[0.88] tracking-tighter"
               style={{ fontSize: "clamp(3.5rem, 8.5vw, 8.5rem)" }}
               aria-label="Design Digital Experiences"
@@ -143,7 +143,7 @@ export function HeroSection() {
                 delay={0.54}
                 className="text-gradient-gold"
               />
-            </div>
+            </h1>
 
             {/* Supporting copy */}
             <motion.p

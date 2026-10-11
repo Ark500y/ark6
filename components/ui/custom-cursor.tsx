@@ -12,8 +12,12 @@ export function CustomCursor() {
   const cursorY = useSpring(0, { stiffness: 400, damping: 28, mass: 0.2 });
 
   useEffect(() => {
-    // Detect touch devices
-    if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+    // Detect touch devices or prefers-reduced-motion
+    if (
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsTouch(true);
       return;

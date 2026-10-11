@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionHeading } from "@/components/ui/section-heading";
 
@@ -41,15 +41,24 @@ const cards = [
 
 export function HorizontalScrollSection() {
   const targetRef = useRef<HTMLDivElement>(null);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsReducedMotion(true);
+    }
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-65%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", isReducedMotion ? "0%" : "-65%"]);
 
   return (
-    <section ref={targetRef} className="relative h-[250vh] bg-[#050505]">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-12 pb-12">
+    <section ref={targetRef} className={`relative bg-[#050505] ${isReducedMotion ? "py-24" : "h-[250vh]"}`}>
+      <div className={`${isReducedMotion ? "" : "sticky top-0 flex h-screen items-center"} overflow-hidden pt-12 pb-12`}>
         <div className="w-full max-w-7xl mx-auto px-5 md:px-8">
           
           <div className="mb-8">

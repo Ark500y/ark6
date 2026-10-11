@@ -3,25 +3,23 @@ import type { Metadata } from "next";
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
 
 export const metadata: Metadata = {
-  title: "Selected Work & Portfolio",
+  title: "Work",
   description:
-    "Explore selected portfolio projects by Abdul Rehman (ARK) — featuring corporate web apps, bilingual Saudi Arabian platforms, graphic design series, and brand identities.",
-  keywords: [
-    "Abdul Rehman Portfolio",
-    "ARK Selected Work",
-    "Mian Saqib Hussain Case Study",
-    "Web Design Portfolio Pakistan",
-    "Graphic Design Portfolio",
-  ],
+    "Selected portfolio projects by Abdul Rehman (ARK) — corporate web apps, bilingual platforms, brand identity systems, and UI/UX design.",
   alternates: {
     canonical: `${baseUrl}/work`,
   },
   openGraph: {
-    title: "Selected Work — Abdul Rehman | ARK Portfolio",
+    title: "Work — Selected Portfolio Projects",
     description:
-      "Curated client projects across Web Development, Brand Identity, and UI/UX Design.",
+      "Selected portfolio projects by Abdul Rehman (ARK) — corporate web apps, bilingual platforms, and brand identity systems.",
     url: `${baseUrl}/work`,
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ARK Selected Work" }],
+  },
+  twitter: {
+    title: "Work — Selected Portfolio Projects",
+    description:
+      "Selected portfolio projects by Abdul Rehman (ARK) — corporate web apps, bilingual platforms, and brand identity systems.",
   },
 };
 

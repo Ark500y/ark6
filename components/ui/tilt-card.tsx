@@ -22,6 +22,9 @@ export function TiltCard({ children, className = "", tiltAmount = 15 }: TiltCard
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-tiltAmount, tiltAmount]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;

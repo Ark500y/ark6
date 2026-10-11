@@ -3,33 +3,24 @@ import type { Metadata } from "next";
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
 
 export const metadata: Metadata = {
-  title: "Services & Capabilities",
+  title: "Services",
   description:
-    "Explore the 6 core services offered by Abdul Rehman (ARK): Brand Identity Design, UI/UX Design, Full-Stack Web Development, E-Commerce Solutions, Framer/Webflow, and AI Web Systems.",
-  keywords: [
-    "Brand Identity Services",
-    "Web Development Services Pakistan",
-    "UI UX Design Services",
-    "Next.js Development",
-    "E-Commerce Solutions",
-    "Bilingual Website Development",
-  ],
-  alternates: {
-    canonical: `${baseUrl}/services`,
-  },
+    "Brand identity, UI/UX design, Next.js web development, e-commerce, Framer/Webflow, and AI-assisted web builds by Abdul Rehman (ARK).",
+  alternates: { canonical: `${baseUrl}/services` },
   openGraph: {
-    title: "Services & Capabilities — Abdul Rehman | ARK",
+    title: "Services — Brand Identity, UI/UX & Web Development",
     description:
-      "End-to-end digital services: Brand Identity, UI/UX Design, Next.js Web Development, and AI Web Systems.",
+      "Brand identity, UI/UX design, Next.js web development, e-commerce, and AI-assisted web builds by ARK.",
     url: `${baseUrl}/services`,
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ARK Services" }],
   },
+  twitter: {
+    title: "Services — Brand Identity, UI/UX & Web Development",
+    description:
+      "Brand identity, UI/UX design, Next.js web development, and AI-assisted builds by ARK.",
+  },
 };
 
-export default function ServicesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ServicesLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

@@ -95,7 +95,7 @@ export function Navbar() {
                 alt="ARK monogram"
                 fill
                 className="object-contain group-hover:scale-105 transition-transform duration-300"
-                priority
+                sizes="40px"
               />
             </div>
             <span className="font-[family-name:var(--font-syne)] font-bold text-white text-sm tracking-[0.25em] uppercase hidden sm:block opacity-70 group-hover:opacity-100 transition-opacity">
