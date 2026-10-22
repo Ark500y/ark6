@@ -56,16 +56,18 @@ function ProjectCard({
   index: number;
 }) {
   const hasCaseStudy = Boolean(project.caseStudyUrl && project.caseStudyUrl !== "" && project.caseStudyUrl !== "#");
-  const isPlaceholder = !hasCaseStudy;
+  const hasLiveUrl = Boolean(project.liveUrl && project.liveUrl !== "" && project.liveUrl !== "#");
+  const isInteractive = hasCaseStudy || hasLiveUrl;
+  const isPlaceholder = !isInteractive;
 
   const cardContent = (
     <article
-      data-cursor={hasCaseStudy ? "view" : undefined}
+      data-cursor={isInteractive ? "view" : undefined}
       className={cn(
         "group relative flex flex-col rounded-2xl overflow-hidden h-full",
         "bg-[#111111] border border-white/[0.08]",
-        hasCaseStudy && "hover:border-[#D4AF37]/25 cursor-pointer",
-        !hasCaseStudy && "opacity-90 cursor-default",
+        isInteractive && "hover:border-[#D4AF37]/25 cursor-pointer",
+        !isInteractive && "opacity-90 cursor-default",
         "transition-all duration-500 select-none"
       )}
     >
@@ -78,7 +80,7 @@ function ProjectCard({
             fill
             className={cn(
               "object-cover object-top opacity-80 transition-all duration-700 ease-out",
-              hasCaseStudy && "group-hover:opacity-100 group-hover:scale-[1.04]"
+              isInteractive && "group-hover:opacity-100 group-hover:scale-[1.04]"
             )}
             sizes="(max-width: 768px) 100vw, 640px"
           />
@@ -98,13 +100,13 @@ function ProjectCard({
           <span
             className={cn(
               "inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold",
-              hasCaseStudy ? "bg-[#D4AF37] text-[#050505]" : "bg-white/10 text-white/80 border border-white/20",
+              isInteractive ? "bg-[#D4AF37] text-[#050505]" : "bg-white/10 text-white/80 border border-white/20",
               "opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100",
               "transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]"
             )}
           >
-            {hasCaseStudy ? "View Case Study" : "Coming Soon"}
-            {hasCaseStudy && <ArrowUpRight className="w-4 h-4" />}
+            {hasCaseStudy ? "View Case Study" : hasLiveUrl ? "View Live Site" : "Coming Soon"}
+            {isInteractive && <ArrowUpRight className="w-4 h-4" />}
           </span>
         </div>
 
@@ -173,6 +175,20 @@ function ProjectCard({
       >
         {cardContent}
       </Link>
+    );
+  }
+
+  if (hasLiveUrl) {
+    return (
+      <a
+        href={project.liveUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505] rounded-2xl h-full"
+        aria-label={`Open live site for ${project.title}`}
+      >
+        {cardContent}
+      </a>
     );
   }
 
