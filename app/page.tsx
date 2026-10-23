@@ -6,6 +6,7 @@ import { CapabilitiesSection } from "@/components/sections/capabilities";
 import { HorizontalScrollSection } from "@/components/sections/horizontal-scroll";
 import { CTABand } from "@/components/sections/cta-band";
 import { Footer } from "@/components/sections/footer";
+import { ExplosionTransition } from "@/components/animations/explosion-transition";
 
 export default function HomePage() {
   return (
@@ -13,7 +14,9 @@ export default function HomePage() {
       <Navbar />
       <main id="main-content">
         <HeroSection />
-        <AboutSection />
+        <ExplosionTransition id="about-transition" sectionName="About ARK">
+          <AboutSection />
+        </ExplosionTransition>
         <CapabilitiesSection />
         <HorizontalScrollSection />
         <WorkSection />
