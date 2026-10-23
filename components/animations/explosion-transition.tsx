@@ -145,6 +145,7 @@ export function ExplosionTransition({
   // Auto-detonate when user scrolls down to this section
   useEffect(() => {
     if (isInView && !hasDetonated) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       triggerExplosion(false); // Don't auto-blast sound on silent scroll, but do full visual blast
     }
   }, [isInView, hasDetonated, triggerExplosion]);
@@ -172,7 +173,7 @@ export function ExplosionTransition({
             />
           </div>
           <span className="text-xs uppercase tracking-[0.2em] font-[family-name:var(--font-syne)] text-[#A1A1AA]">
-            Explosion Transition:{" "}
+            {sectionName} — Blast:{" "}
             <strong className="text-white font-semibold">
               {hasDetonated ? "Detonated" : "Armed on Scroll"}
             </strong>
