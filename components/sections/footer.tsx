@@ -115,7 +115,7 @@ export function Footer() {
           <p>
             &copy; {year} Abdul Rehman · ARK. All rights reserved.
           </p>
-          <p className="opacity-50">
+          <p className="text-[#A1A1AA]">
             Built with Next.js · Tailwind CSS · TypeScript
           </p>
         </div>

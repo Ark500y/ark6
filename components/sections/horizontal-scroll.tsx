@@ -80,10 +80,10 @@ export function HorizontalScrollSection() {
 
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-4xl font-[family-name:var(--font-syne)] font-extrabold text-[#D4AF37]/40 group-hover:text-[#D4AF37] transition-colors">
+                    <span className="text-4xl font-[family-name:var(--font-syne)] font-extrabold text-[#D4AF37]/80 group-hover:text-[#D4AF37] transition-colors">
                       {card.number}
                     </span>
-                    <span className="text-xs uppercase tracking-widest text-white/40 font-mono">
+                    <span className="text-xs uppercase tracking-widest text-white/70 font-mono">
                       {card.category}
                     </span>
                   </div>

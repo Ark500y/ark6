@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { GoldGeometry } from "@/components/3d/gold-geometry";
@@ -62,14 +62,6 @@ function HeroLine({
 // ─── Main Hero Section ────────────────────────────────────────────────────────
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Parallax for portrait on scroll
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const portraitY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const portraitYSpring = useSpring(portraitY, { stiffness: 80, damping: 20 });
 
   return (
     <section
@@ -204,20 +196,14 @@ export function HeroSection() {
 
           {/* ── Right — Portrait + 3D ── */}
           <div className="lg:col-span-5 relative order-1 lg:order-2 flex justify-center lg:justify-end">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-sm lg:max-w-md"
-            >
+            <div className="relative w-full max-w-sm lg:max-w-md">
               {/* 3D Geometry — floats above portrait */}
               <div className="absolute -top-20 -right-10 w-56 h-56 z-30 hidden md:block">
                 <GoldGeometry className="w-full h-full" />
               </div>
 
-              {/* Portrait with parallax */}
-              <motion.div
-                style={{ y: portraitYSpring }}
+              {/* Portrait container */}
+              <div
                 className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/8 bg-[#0A0A0A] group/portrait"
               >
                 {/* Gold border glow on hover */}
@@ -232,8 +218,9 @@ export function HeroSection() {
                   alt="Abdul Rehman — Graphic Designer & Web Developer"
                   fill
                   priority
+                  fetchPriority="high"
                   className="object-cover object-top transition-transform duration-700 ease-out group-hover/portrait:scale-105"
-                  sizes="(max-width: 768px) 80vw, 40vw"
+                  sizes="(max-width: 640px) 350px, (max-width: 1024px) 384px, 448px"
                 />
 
                 {/* Status badge */}
@@ -255,7 +242,7 @@ export function HeroSection() {
                     <path d="M32 0L32 32L0 32" stroke="rgba(212,175,55,0.4)" strokeWidth="1" />
                   </svg>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Name card below portrait */}
               <motion.div
@@ -276,7 +263,7 @@ export function HeroSection() {
                   ARK
                 </span>
               </motion.div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
