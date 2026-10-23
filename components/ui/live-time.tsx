@@ -6,6 +6,8 @@ export function LiveSargodhaTime() {
   const [timeStr, setTimeStr] = useState<string>("");
 
   useEffect(() => {
+    if (typeof window === "undefined" || window.innerWidth < 1024) return;
+
     const updateClock = () => {
       const now = new Date();
       // Sargodha is PKT (Asia/Karachi, UTC+5)
@@ -27,8 +29,7 @@ export function LiveSargodhaTime() {
   return (
     <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs text-white/80 font-mono">
       <span className="relative flex h-2 w-2">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
       </span>
       <span>Sargodha, PK</span>
       <span className="text-white/30">•</span>

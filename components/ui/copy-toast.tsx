@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Check, Copy } from "lucide-react";
 
 interface CopyEmailButtonProps {
@@ -46,25 +45,23 @@ export function CopyEmailButton({
       </button>
 
       {/* Floating Toast Notification */}
-      <AnimatePresence>
-        {copied && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="fixed bottom-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 bg-[#0A0A0A] border border-[#D4AF37]/50 rounded-xl shadow-[0_10px_30px_rgba(212,175,55,0.2)] text-white"
-          >
-            <div className="w-7 h-7 rounded-full bg-[#D4AF37]/20 flex items-center justify-center text-[#D4AF37]">
-              <Check className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-white">Email Copied to Clipboard!</p>
-              <p className="text-[11px] text-[#A1A1AA] font-mono">{email}</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        aria-live="polite"
+        className={`fixed bottom-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 bg-[#0A0A0A] border border-[#D4AF37]/50 rounded-xl shadow-[0_10px_30px_rgba(212,175,55,0.2)] text-white transition-all duration-300 ease-out ${
+          copied
+            ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+            : "opacity-0 translate-y-4 scale-95 pointer-events-none"
+        }`}
+      >
+        <div className="w-7 h-7 rounded-full bg-[#D4AF37]/20 flex items-center justify-center text-[#D4AF37]">
+          <Check className="w-4 h-4" />
+        </div>
+        <div>
+          <p className="text-xs font-semibold text-white">Email Copied to Clipboard!</p>
+          <p className="text-[11px] text-[#A1A1AA] font-mono">{email}</p>
+        </div>
+      </div>
     </>
   );
 }
+

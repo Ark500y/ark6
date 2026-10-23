@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Reveal } from "@/components/animations/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -76,7 +74,7 @@ export function CapabilitiesSection() {
               <Reveal delay={index * 80} duration="normal">
                 <TiltCard className="h-full">
                   <div
-                    className={`h-full relative p-8 md:p-10 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:border-[#D4AF37]/60 transition-colors duration-500 overflow-hidden group shadow-2xl ${item.bgAccent}`}
+                    className={`h-full relative p-8 md:p-10 rounded-3xl border border-white/10 bg-[#0D0D0D] md:bg-white/[0.02] md:backdrop-blur-xl hover:border-[#D4AF37]/60 transition-colors duration-500 overflow-hidden group shadow-2xl ${item.bgAccent}`}
                   >
                     {/* Hover Glow Accent */}
                     <div className="absolute -top-12 -right-12 w-40 h-40 bg-[#D4AF37]/10 rounded-full blur-3xl group-hover:bg-[#D4AF37]/25 transition-all pointer-events-none" />

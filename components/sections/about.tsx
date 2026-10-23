@@ -26,7 +26,7 @@ export function AboutSection() {
                 alt="Abdul Rehman portrait"
                 fill
                 className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 42vw, 480px"
+                sizes="(max-width: 640px) 350px, (max-width: 1024px) 384px, 480px"
               />
               <div className="absolute inset-0 border border-white/5 rounded-2xl z-20 pointer-events-none" />
             </Reveal>

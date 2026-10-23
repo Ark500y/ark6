@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useRef, useState } from "react";
 
 interface TiltCardProps {
   children: React.ReactNode;
@@ -9,55 +8,43 @@ interface TiltCardProps {
   tiltAmount?: number;
 }
 
-export function TiltCard({ children, className = "", tiltAmount = 15 }: TiltCardProps) {
+export function TiltCard({ children, className = "", tiltAmount = 10 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], [tiltAmount, -tiltAmount]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-tiltAmount, tiltAmount]);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-
-    x.set(xPct);
-    y.set(yPct);
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({
+      x: -yPct * tiltAmount,
+      y: xPct * tiltAmount,
+    });
+    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
+    setTilt({ x: 0, y: 0 });
+    setIsHovered(false);
   };
 
   return (
-    <motion.div
+    <div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        rotateX,
-        rotateY,
+        transform: isHovered
+          ? `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`
+          : "perspective(800px) rotateX(0deg) rotateY(0deg)",
+        transition: isHovered ? "transform 0.1s ease-out" : "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
         transformStyle: "preserve-3d",
       }}
-      className={`relative transition-all duration-200 ${className}`}
+      className={`relative ${className}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

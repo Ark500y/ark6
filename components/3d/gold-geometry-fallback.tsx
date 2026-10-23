@@ -3,7 +3,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 
 export function GoldGeometryFallback({ className }: { className?: string }) {
   return (
@@ -11,13 +10,11 @@ export function GoldGeometryFallback({ className }: { className?: string }) {
       className={`pointer-events-none select-none ${className ?? ""}`}
       aria-hidden="true"
     >
-      <motion.svg
+      <svg
         viewBox="0 0 200 200"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        className="w-full h-full animate-[spin_40s_linear_infinite]"
       >
         {/* Outer triangle */}
         <polygon
@@ -50,7 +47,7 @@ export function GoldGeometryFallback({ className }: { className?: string }) {
         <circle cx="100" cy="12" r="2" fill="#D4AF37" opacity="0.6" />
         <circle cx="188" cy="156" r="2" fill="#D4AF37" opacity="0.6" />
         <circle cx="12" cy="156" r="2" fill="#D4AF37" opacity="0.6" />
-      </motion.svg>
+      </svg>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Sparkles, Flame, Volume2, VolumeX } from "lucide-react";
 
 interface Particle {
@@ -117,7 +116,6 @@ export function ExplosionTransition({
   className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-12%" });
 
   const [hasDetonated, setHasDetonated] = useState(false);
   const [isExploding, setIsExploding] = useState(false);
@@ -144,11 +142,31 @@ export function ExplosionTransition({
 
   // Auto-detonate when user scrolls down to this section
   useEffect(() => {
-    if (isInView && !hasDetonated) {
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (
+      typeof window !== "undefined" &&
+      (window.innerWidth < 768 || window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    ) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      triggerExplosion(false); // Don't auto-blast sound on silent scroll, but do full visual blast
+      setHasDetonated(true);
+      return;
     }
-  }, [isInView, hasDetonated, triggerExplosion]);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasDetonated) {
+          triggerExplosion(false);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "-12%" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasDetonated, triggerExplosion]);
 
   return (
     <div
@@ -213,151 +231,92 @@ export function ExplosionTransition({
       </div>
 
       {/* ── Explosion FX Overlay (Positioned at Center of View) ── */}
-      <AnimatePresence>
-        {isExploding && (
-          <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
-            {/* 1. Flash of intense light */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.1 }}
-              animate={{ opacity: [0, 1, 0.9, 0], scale: [0.2, 1.8, 2.5] }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.55, ease: "easeOut" }}
-              className="absolute w-[200vw] h-[200vh] rounded-full bg-radial from-white via-[#F4D06F]/50 to-transparent blur-xl"
+      {isExploding && (
+        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
+          {/* 1. Flash of intense light */}
+          <div className="absolute w-[200vw] h-[200vh] rounded-full bg-radial from-white via-[#F4D06F]/50 to-transparent blur-xl animate-blast-flash" />
+
+          {/* 2. Concentric Shockwave Rings */}
+          {[0, 80, 160].map((delay, index) => (
+            <div
+              key={`shockwave-${index}`}
+              style={{ animationDelay: `${delay}ms` }}
+              className="absolute w-[400px] h-[400px] rounded-full border-2 border-[#F4D06F] shadow-[0_0_50px_rgba(212,175,55,0.8),inset_0_0_30px_rgba(212,175,55,0.6)] animate-blast-shockwave"
             />
+          ))}
 
-            {/* 2. Concentric Shockwave Rings */}
-            {[0, 0.08, 0.16].map((delay, index) => (
-              <motion.div
-                key={`shockwave-${index}`}
-                initial={{ scale: 0, opacity: 0.9, borderWidth: 10 }}
-                animate={{
-                  scale: [0, 2.2, 3.8],
-                  opacity: [0.9, 0.4, 0],
-                  borderWidth: [10, 3, 0],
-                }}
-                transition={{
-                  duration: 0.75,
-                  delay,
-                  ease: [0.12, 0.8, 0.32, 1],
-                }}
-                className="absolute w-[400px] h-[400px] rounded-full border-2 border-[#F4D06F] shadow-[0_0_50px_rgba(212,175,55,0.8),inset_0_0_30px_rgba(212,175,55,0.6)]"
-              />
-            ))}
-
-            {/* 3. Flying Gold & Obsidian Shards / Shrapnel */}
-            {particles.map((p) => (
-              <motion.div
-                key={p.id}
-                initial={{
-                  x: 0,
-                  y: 0,
-                  scale: 0,
-                  rotate: 0,
-                  opacity: 1,
-                }}
-                animate={{
-                  x: p.x,
-                  y: p.y,
-                  scale: [0, 1.3, 0.8, 0],
-                  rotate: p.rotation,
-                  opacity: [1, 1, 0.8, 0],
-                }}
-                transition={{
-                  duration: p.duration,
-                  ease: [0.15, 0.85, 0.35, 1],
-                }}
-                className="absolute"
-                style={{
-                  width: `${p.size}px`,
-                  height: `${p.size}px`,
-                }}
-              >
-                {p.shape === "triangle" ? (
-                  <div
-                    style={{
-                      width: 0,
-                      height: 0,
-                      borderLeft: `${p.size / 2}px solid transparent`,
-                      borderRight: `${p.size / 2}px solid transparent`,
-                      borderBottom: `${p.size}px solid ${p.color}`,
-                      filter: "drop-shadow(0 0 8px rgba(212,175,55,0.8))",
-                    }}
-                  />
-                ) : p.shape === "diamond" ? (
-                  <div
-                    className="rotate-45"
-                    style={{
-                      width: `${p.size * 0.8}px`,
-                      height: `${p.size * 0.8}px`,
-                      backgroundColor: p.color,
-                      boxShadow: "0 0 12px rgba(244,208,111,0.9)",
-                    }}
-                  />
-                ) : p.shape === "shard" ? (
-                  <div
-                    style={{
-                      width: `${p.size * 0.3}px`,
-                      height: `${p.size * 1.6}px`,
-                      backgroundColor: p.color,
-                      transform: "skewX(30deg)",
-                      boxShadow: "0 0 10px rgba(212,175,55,0.7)",
-                    }}
-                  />
-                ) : (
-                  <div
-                    className="rounded-full"
-                    style={{
-                      width: `${p.size * 0.6}px`,
-                      height: `${p.size * 0.6}px`,
-                      backgroundColor: p.color,
-                      boxShadow: "0 0 14px rgba(255,255,255,0.9)",
-                    }}
-                  />
-                )}
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </AnimatePresence>
+          {/* 3. Flying Gold & Obsidian Shards / Shrapnel */}
+          {particles.map((p) => (
+            <div
+              key={p.id}
+              className="absolute transition-all ease-out"
+              style={{
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                transform: `translate3d(${p.x}px, ${p.y}px, 0) rotate(${p.rotation}deg)`,
+                opacity: 0,
+                transitionDuration: `${p.duration}s`,
+              }}
+            >
+              {p.shape === "triangle" ? (
+                <div
+                  style={{
+                    width: 0,
+                    height: 0,
+                    borderLeft: `${p.size / 2}px solid transparent`,
+                    borderRight: `${p.size / 2}px solid transparent`,
+                    borderBottom: `${p.size}px solid ${p.color}`,
+                    filter: "drop-shadow(0 0 8px rgba(212,175,55,0.8))",
+                  }}
+                />
+              ) : p.shape === "diamond" ? (
+                <div
+                  className="rotate-45"
+                  style={{
+                    width: `${p.size * 0.8}px`,
+                    height: `${p.size * 0.8}px`,
+                    backgroundColor: p.color,
+                    boxShadow: "0 0 12px rgba(244,208,111,0.9)",
+                  }}
+                />
+              ) : p.shape === "shard" ? (
+                <div
+                  style={{
+                    width: `${p.size * 0.3}px`,
+                    height: `${p.size * 1.6}px`,
+                    backgroundColor: p.color,
+                    transform: "skewX(30deg)",
+                    boxShadow: "0 0 10px rgba(212,175,55,0.7)",
+                  }}
+                />
+              ) : (
+                <div
+                  className="rounded-full"
+                  style={{
+                    width: `${p.size * 0.6}px`,
+                    height: `${p.size * 0.6}px`,
+                    backgroundColor: p.color,
+                    boxShadow: "0 0 14px rgba(255,255,255,0.9)",
+                  }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ── The Section Erupts From The Blast! ── */}
-      <motion.div
-        animate={
+      <div
+        className={`relative transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isExploding
-            ? {
-                // Screen shake & explosive impact
-                x: [-10, 12, -9, 7, -3, 0],
-                y: [7, -11, 8, -5, 2, 0],
-                scale: [0.86, 1.04, 0.99, 1.0],
-                filter: [
-                  "brightness(3) blur(14px)",
-                  "brightness(1.8) blur(4px)",
-                  "brightness(1) blur(0px)",
-                ],
-              }
+            ? "animate-blast-shake"
             : hasDetonated
-            ? {
-                x: 0,
-                y: 0,
-                scale: 1,
-                filter: "brightness(1) blur(0px)",
-                opacity: 1,
-              }
-            : {
-                // Before detonation: waiting in anticipation
-                opacity: 0.15,
-                scale: 0.94,
-                filter: "blur(8px) brightness(0.6)",
-              }
-        }
-        transition={{
-          duration: isExploding ? 0.75 : 0.6,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        className="relative"
+            ? "opacity-100 scale-100 blur-none brightness-100"
+            : "opacity-100 md:opacity-20 md:scale-[0.96] md:blur-[6px] md:brightness-75"
+        }`}
       >
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 }

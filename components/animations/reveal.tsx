@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useRef, useEffect, useState } from "react";
 
 interface RevealProps {
   children: React.ReactNode;
@@ -13,9 +12,9 @@ interface RevealProps {
 }
 
 const durationMap = {
-  fast: 0.25,
-  normal: 0.6,
-  large: 0.9,
+  fast: "300ms",
+  normal: "600ms",
+  large: "900ms",
 };
 
 export function Reveal({
@@ -23,24 +22,48 @@ export function Reveal({
   delay = 0,
   duration = "normal",
   distance = 24,
-  className,
+  className = "",
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-8%" });
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "60px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: distance }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: distance }}
-      transition={{
-        delay: delay / 1000,
-        duration: durationMap[duration],
-        ease: [0.16, 1, 0.3, 1],
+      className={`transition-all ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "none" : `translateY(${distance}px)`,
+        transitionDuration: durationMap[duration],
+        transitionDelay: `${delay}ms`,
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
-      className={className}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

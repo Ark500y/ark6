@@ -1,12 +1,9 @@
-"use client";
-
-import React, { useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import { Reveal } from "@/components/animations/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { projects } from "@/data/projects";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 
 function ArrowUpRight({ className }: { className?: string }) {
   return (
@@ -26,21 +23,10 @@ function ArrowRight({ className }: { className?: string }) {
 
 export function WorkSection() {
   const featuredProjects = projects.filter((p) => p.featured);
-  const containerRef = useRef<HTMLElement>(null);
-  const shouldReduceMotion = useReducedMotion();
-  const isReducedMotion = Boolean(shouldReduceMotion);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
     <section
       id="work"
-      ref={containerRef}
       aria-labelledby="work-heading"
       className="relative py-28 md:py-40 bg-[#050505]"
     >
@@ -76,7 +62,7 @@ export function WorkSection() {
                     {/* Overlay on hover */}
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none" />
                     
-                    <motion.div style={{ y: isReducedMotion ? 0 : y }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
+                    <div className="absolute inset-0 w-full h-full overflow-hidden">
                       <Image
                         src={project.imageUrl}
                         alt={project.title}
@@ -84,7 +70,7 @@ export function WorkSection() {
                         className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-700 ease-out"
                         sizes="(max-width: 768px) 100vw, 1280px"
                       />
-                    </motion.div>
+                    </div>
                   </a>
 
                   {/* Project Details */}

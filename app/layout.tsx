@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import { Syne, Instrument_Sans } from "next/font/google";
 import { PageLoader } from "@/components/ui/page-loader";
-import { CustomCursor } from "@/components/ui/custom-cursor";
-import dynamic from "next/dynamic";
+import { ClientWidgets } from "@/components/ui/client-widgets";
 import "./globals.css";
-
-const CommandPalette = dynamic(
-  () => import("@/components/ui/command-palette").then((m) => m.CommandPalette)
-);
 
 const syne = Syne({
   subsets: ["latin"],
@@ -171,8 +166,7 @@ export default function RootLayout({
       </head>
       <body className="noise antialiased bg-[#050505] text-white overflow-x-hidden cursor-none md:cursor-auto">
         <PageLoader />
-        <CustomCursor />
-        <CommandPalette />
+        <ClientWidgets />
         {children}
       </body>
     </html>

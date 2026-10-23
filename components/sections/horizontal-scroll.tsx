@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 const cards = [
@@ -42,25 +41,56 @@ const cards = [
 export function HorizontalScrollSection() {
   const targetRef = useRef<HTMLDivElement>(null);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [translateX, setTranslateX] = useState(0);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsReducedMotion(true);
     }
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+      return;
+    }
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const el = targetRef.current;
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            const total = el.offsetHeight - window.innerHeight;
+            if (total > 0) {
+              const current = -rect.top;
+              const progress = Math.max(0, Math.min(1, current / total));
+              setTranslateX(progress * -65);
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", isReducedMotion ? "0%" : "-65%"]);
-
   return (
-    <section ref={targetRef} className={`relative bg-[#050505] ${isReducedMotion ? "py-24" : "h-[250vh]"}`}>
-      <div className={`${isReducedMotion ? "" : "sticky top-0 flex h-screen items-center"} overflow-hidden pt-12 pb-12`}>
+    <section
+      ref={targetRef}
+      className={`relative bg-[#050505] ${isReducedMotion || isMobile ? "py-20" : "h-[250vh]"}`}
+    >
+      <div
+        className={`${
+          isReducedMotion || isMobile ? "" : "sticky top-0 flex h-screen items-center"
+        } overflow-hidden pt-8 pb-8`}
+      >
         <div className="w-full max-w-7xl mx-auto px-5 md:px-8">
-          
           <div className="mb-8">
             <SectionHeading
               eyebrow="ENGINEERING STANDARDS"
@@ -69,11 +99,21 @@ export function HorizontalScrollSection() {
             />
           </div>
 
-          <motion.div style={{ x }} className="flex gap-8">
+          <div
+            style={
+              isReducedMotion || isMobile
+                ? undefined
+                : {
+                    transform: `translateX(${translateX}%)`,
+                    willChange: "transform",
+                  }
+            }
+            className={`flex gap-6 md:gap-8 ${isMobile ? "overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-none" : ""}`}
+          >
             {cards.map((card) => (
               <div
                 key={card.number}
-                className="group relative h-[380px] w-[340px] md:w-[420px] shrink-0 flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-md hover:border-[#D4AF37]/50 transition-colors duration-500 shadow-xl overflow-hidden"
+                className="group relative h-[380px] w-[340px] md:w-[420px] shrink-0 flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0D0D0D] md:bg-white/[0.02] md:backdrop-blur-md p-8 hover:border-[#D4AF37]/50 transition-colors duration-500 shadow-xl overflow-hidden"
               >
                 {/* Glow gradient background */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/10 rounded-full blur-3xl group-hover:bg-[#D4AF37]/25 transition-all pointer-events-none" />
@@ -107,7 +147,7 @@ export function HorizontalScrollSection() {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
