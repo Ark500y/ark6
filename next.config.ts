@@ -17,6 +17,15 @@ const nextConfig: NextConfig = {
       "lucide-react",
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/sitemap",
+        destination: "/sitemap.xml",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
