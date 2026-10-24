@@ -19,7 +19,13 @@ const instrumentSans = Instrument_Sans({
   display: "swap",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://env-three-kohl.vercel.app");
 
 export const metadata: Metadata = {
   // FIX 1: title.template so each page appends cleanly
@@ -73,7 +79,14 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "googlea8b3e9a5219c3287",
+    google: [
+      "googlea8b3e9a5219c3287",
+      "googlea8b3e9a5219c3287.html",
+      "google-site-verification: googlea8b3e9a5219c3287.html",
+    ],
+  },
+  other: {
+    "google-site-verification": "googlea8b3e9a5219c3287.html",
   },
 };
 
