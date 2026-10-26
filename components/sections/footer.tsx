@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { brandData } from "@/data/brand";
 import { LiveSargodhaTime } from "@/components/ui/live-time";
 import { CopyEmailButton } from "@/components/ui/copy-toast";
@@ -9,6 +10,7 @@ const footerLinks = [
   { href: "/work", label: "Work" },
   { href: "/services", label: "Services" },
   { href: "/#contact", label: "Contact" },
+  { href: "/privacy", label: "Privacy Policy" },
 ];
 
 export function Footer() {
@@ -112,9 +114,18 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#A1A1AA]">
-          <p>
-            &copy; {year} Abdul Rehman · ARK. All rights reserved.
-          </p>
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1">
+            <p>
+              &copy; {year} Abdul Rehman · ARK. All rights reserved.
+            </p>
+            <span className="hidden sm:inline text-white/20">·</span>
+            <Link
+              href="/privacy"
+              className="text-[#A1A1AA] hover:text-[#D4AF37] transition-colors duration-300 underline underline-offset-4 decoration-white/20 hover:decoration-[#D4AF37]"
+            >
+              Privacy Policy
+            </Link>
+          </div>
           <p className="text-[#A1A1AA]">
             Built with Next.js · Tailwind CSS · TypeScript
           </p>
