@@ -4,7 +4,7 @@ export interface Project {
   number: string;
   title: string;
   client: string;
-  category: "Web Development" | "Graphic Design" | "Brand Identity" | "UI/UX Design";
+  category: "Web Development" | "Creative Engineering" | "Graphic Design" | "Brand Identity" | "UI/UX Design";
   tags: string[];
   description: string;
   excerpt: string;
@@ -45,8 +45,8 @@ export const projects: Project[] = [
     slug: "ark-creative-engineering",
     number: "02",
     title: "ARK — Portfolio & Creative Engineering",
-    client: "ARK",
-    category: "Web Development",
+    client: "ARK Studio",
+    category: "Creative Engineering",
     tags: ["Creative Engineering", "Interactive Web", "Next.js", "Performance"],
     description:
       "A futuristic, aerospace-grade creative engineering showcase featuring cinematic parallax layers, cosmic visuals, interactive soundscapes, and real-time telemetry systems.",
@@ -59,75 +59,8 @@ export const projects: Project[] = [
     ],
     imageUrl: "/work/ark-creative-engineering.jpg",
     liveUrl: "https://portfolio-alpha-one-ym3ipfauzw.vercel.app/",
-    caseStudyUrl: "",
+    caseStudyUrl: "/work/ark-creative-engineering",
     year: "2024",
     featured: true,
-  },
-  {
-    id: "ark-branding",
-    slug: "ark-identity",
-    number: "03",
-    title: "ARK Visual Identity System",
-    client: "ARK",
-    category: "Brand Identity",
-    tags: ["Brand Identity", "Logo Design", "Typography", "Style Guide"],
-    description:
-      "Complete visual identity design for ARK, featuring custom minimalist typography, luxury gold & obsidian color palette, and digital brand guidelines.",
-    excerpt: "Luxury dark-mode brand identity system for a digital artisan.",
-    servicesProvided: [
-      "Logo Design",
-      "Brand Guidelines",
-      "Typography System",
-      "Social Assets",
-    ],
-    imageUrl: "/logo/ark-transparent.png",
-    liveUrl: "",
-    caseStudyUrl: "",
-    year: "2024",
-    featured: false,
-  },
-  {
-    id: "editorial-graphics",
-    slug: "editorial-design",
-    number: "04",
-    title: "Minimalist Graphic Series",
-    client: "Studio ARK",
-    category: "Graphic Design",
-    tags: ["Graphic Design", "Editorial", "Poster Art", "Vector Art"],
-    description:
-      "A series of high-contrast typographic posters and digital artwork exploring geometric minimalism, gold gradients, and brutalist layout structures.",
-    excerpt: "High-contrast poster design exploring geometric minimalism.",
-    servicesProvided: [
-      "Graphic Design",
-      "Poster Art",
-      "Digital Illustration",
-    ],
-    imageUrl: "/logo/ark.png",
-    liveUrl: "",
-    caseStudyUrl: "",
-    year: "2024",
-    featured: false,
-  },
-  {
-    id: "ui-ux-design-system",
-    slug: "ui-ux-system",
-    number: "05",
-    title: "Dark Luxury Web Concept",
-    client: "ARK Studio",
-    category: "UI/UX Design",
-    tags: ["UI/UX Design", "Figma", "Design System", "Prototyping"],
-    description:
-      "High-end web application design system built in Figma, featuring micro-interactions, responsive grid rules, and component libraries.",
-    excerpt: "Figma design system tailored for high-conversion web applications.",
-    servicesProvided: [
-      "Figma UI/UX",
-      "Design Systems",
-      "Interactive Prototyping",
-    ],
-    imageUrl: "/work/mian-saqib-hero.png",
-    liveUrl: "",
-    caseStudyUrl: "",
-    year: "2024",
-    featured: false,
   },
 ];

@@ -31,7 +31,7 @@ function ArrowUpRight({ className }: { className?: string }) {
 }
 
 /* ─── Categories ────────────────────────────────────────── */
-const categories = ["All", "Web Development", "Graphic Design", "Brand Identity", "UI/UX Design"] as const;
+const categories = ["All", "Web Development", "Creative Engineering"] as const;
 
 /* ─── Image placeholder ─────────────────────────────────── */
 function ImagePlaceholder({ number }: { number: string }) {
@@ -239,7 +239,7 @@ export default function WorkPage() {
 
             <Reveal delay={160}>
               <p className="mt-6 text-[#A1A1AA] text-base md:text-lg leading-relaxed max-w-xl">
-                Filter by discipline to explore tailored client projects in Web Development, Brand Identity, and UI/UX.
+                Explore featured client projects and creative engineering showcases engineered with modern web technologies.
               </p>
             </Reveal>
 

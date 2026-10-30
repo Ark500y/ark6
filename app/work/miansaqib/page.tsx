@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
 import { Reveal } from "@/components/animations/reveal";
@@ -9,7 +10,13 @@ import { Container } from "@/components/ui/container";
 /* ─────────────────────────────────────────────
    SEO metadata
 ───────────────────────────────────────────── */
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ark6.vercel.app";
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://env-three-kohl.vercel.app");
 
 export const metadata: Metadata = {
   title: "Mian Saqib Hussain",
@@ -664,7 +671,7 @@ export default function MianSaqibCaseStudy() {
               </p>
             </Reveal>
             <Reveal delay={200}>
-              <div className="flex flex-wrap items-center justify-center gap-4">
+              <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
                 <Button
                   href="https://miansaqib.com/"
                   target="_blank"
@@ -677,6 +684,20 @@ export default function MianSaqibCaseStudy() {
                 <Button href="/work" variant="outline" size="lg" icon={<ArrowLeft />}>
                   Back to Work
                 </Button>
+              </div>
+            </Reveal>
+
+            {/* Next Project Link */}
+            <Reveal delay={260}>
+              <div className="pt-12 border-t border-white/10 max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+                <span className="text-[#A1A1AA]">Next Case Study:</span>
+                <Link
+                  href="/work/ark-creative-engineering"
+                  className="inline-flex items-center gap-2 text-white hover:text-[#D4AF37] font-semibold transition-colors duration-300 group"
+                >
+                  <span>Project 02 &mdash; ARK Creative Engineering</span>
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                </Link>
               </div>
             </Reveal>
           </Container>
