@@ -8,11 +8,6 @@ import { WorkSection } from "@/components/sections/work";
 import { CTABand } from "@/components/sections/cta-band";
 import { Footer } from "@/components/sections/footer";
 
-const ExplosionTransition = dynamic(() =>
-  import("@/components/animations/explosion-transition").then(
-    (m) => m.ExplosionTransition
-  )
-);
 const HorizontalScrollSection = dynamic(() =>
   import("@/components/sections/horizontal-scroll").then(
     (m) => m.HorizontalScrollSection
@@ -25,9 +20,7 @@ export default function HomePage() {
       <Navbar />
       <main id="main-content">
         <HeroSection />
-        <ExplosionTransition id="about-transition" sectionName="About ARK">
-          <AboutSection />
-        </ExplosionTransition>
+        <AboutSection />
         <CapabilitiesSection />
         <HorizontalScrollSection />
         <WorkSection />
